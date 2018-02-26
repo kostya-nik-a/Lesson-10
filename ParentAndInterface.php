@@ -1,5 +1,5 @@
-<?php
-<<< TASK  Домашнее задание к лекции 3.2 «Наследование и интерфейсы»
+<!--  
+Домашнее задание к лекции 3.2 «Наследование и интерфейсы»
 1. Распишите своё понимание полиморфизма и наследования своими словами. Представьте, что вас спрашивают на собеседовании.
 
 Наследование - это один из принципов ООП, основанный на придании новым объектам аналогичных свойст от другого объекта, с небольшими изменениями, без дублирования кода. Т.е. если есть один объект, то можно создать новый, второй, объект, взяв свойства и методы от первого объекта и добавить или изменить у второго объекта лишь часть, это позволяет избегать дублирование кода.
@@ -13,24 +13,17 @@
 3. Для всех объектов, которые вы делали в прошлом ДЗ, придумайте, что могло бы быть суперклассом? (Необходимо написать код).
 
 4. Создайте интерфейсы для всех объектов, которые у вас были, и имплементируйте их.
-TASK
+-->
 
+<?php
 abstract class SuperClass {
 	public $price;
-	public $title;
 	public $year;
 
-	public function __construct($title, $price,$year) 
-	{ 
-		$this->title = $title;
-		$this->price = $price;
-		$this->year = $year;
-	}
-
-	public function getPrice()
+	public function getTitle()
 		{
-			return $this->price;
-			echo "Цена";
+			return $this->title;
+			echo "Описание";
 		}
 
 	public function getYear()
@@ -43,8 +36,8 @@ abstract class SuperClass {
 
 interface Production {
 
-	public function CreateObject;
-	public function GetTitle;
+	public function createObject();
+	public function getTitle();
 }
 
 
@@ -57,6 +50,10 @@ class ClassCars extends SuperClass implements Production {
 	public $volumeCar;
 	public $colorCar;
 	public $priceCar;
+
+	public function getTitle() {
+		echo "Описание: ".$this->title.'<br>';
+	}
 
 	public function getMark() {
 		echo 'Марка машины: '.$this->markCar.'<br>';
@@ -73,12 +70,8 @@ class ClassCars extends SuperClass implements Production {
 		echo 'Цвет машины: '.$this->colorCar.'<br>';
 	}
 
-	public function GetTitle {
-		echo "Описание: ".$this->title;
-	}
-
-	public function CreateObject {
-		echo "Создание машины".$this->year;
+	public function createObject() {
+		echo "Год выпуска: ".$this->year.'<br>';
 	}
 
 } 
@@ -86,10 +79,13 @@ class ClassCars extends SuperClass implements Production {
 $objectCar1 = new ClassCars();
 $objectCar2 = new ClassCars();
 
-$objectCar1->title = "Машина";
+$objectCar1->title = "Кроссовер";
 $objectCar1->markCar = "Honda";
 $objectCar1->modelCar = "CR_V";
 $objectCar1->year = "2015";
+
+echo $objectCar1->getTitle();
+echo $objectCar1->createObject();
 
 echo $objectCar1->getMark();
 echo $objectCar1->getModel().'<br>';
@@ -119,11 +115,11 @@ class ClassTVs extends SuperClass implements Production {
 
 	}
 
-	public function CreateObject {
+	public function CreateObject() {
 		echo "Создание телевизора: ".$this->year;
 	}
 
-	public function GetTitle {
+	public function GetTitle() {
 		echo "Описание: ".$this->title;
 	}
 }
@@ -149,11 +145,11 @@ class ClassPens extends SuperClass implements Production {
 
 	}
 
-	public function CreateObject {
+	public function CreateObject() {
 		echo "Создание ручки: ".$this->year;
 	}
 
-	public function GetTitle {
+	public function GetTitle() {
 		echo "Описание: ".$this->title;
 	}
 }
@@ -176,11 +172,11 @@ class ClassDucks extends SuperClass implements Production {
 
 	}
 
-	public function CreateObject {
+	public function CreateObject() {
 		echo "Рождение утки: ".$this->year;
 	}
 
-	public function GetTitle {
+	public function GetTitle() {
 		echo "Описание: ".$this->title;
 	}
 }
@@ -203,11 +199,11 @@ class ClassProducts extends SuperClass implements Production {
 	public function getCharacteristics() {
 
 	}
-	public function CreateObject {
+	public function CreateObject() {
 		echo "Создание продукта: ".$this->year;
 	}
 
-	public function GetTitle {
+	public function GetTitle() {
 		echo "Описание: ".$this->title;
 	}
 }
