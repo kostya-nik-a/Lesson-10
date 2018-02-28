@@ -15,6 +15,7 @@ class BaseProductClass {
 	public $description;
 	public $weight;
 	public $price;
+	public $discount;
 	public $delivery;
 
     public function __construct($title, $category, $price, $weight)
@@ -25,38 +26,45 @@ class BaseProductClass {
             $this->weight = $weight;
             echo "Продукт:  $this->title";
     } 
+}
 
 	trait getProductPrice //стандартная стоимость продукта
 	{
 		public function getPrice() 
 		{
-			echo "Цена: {t$this->price} руб."
+			echo "<br>Стоимость товара: {$this->price} руб.";
 		}
 	}
 
 	trait getProductDiscount // стоимость продукта со скидкой
 	{
-		public function getDiscountPrice($discount)
+		public function getDiscountPrice()
+		{	
+			$this->discount = 10;
+			$this->priceDisc = round(($this->price - $this->price * $this->discount / 100),2);
+			echo "<br>Стоимость товара со скидкой: {$this->priceDisc} руб. Скидка: {$this->discount}%";
+		}
+	}
+
+	trait getWeightDiscount // стоимость продукта со скидкой
+	{
+		public function getWeightDiscount()
 		{	
 			if ($this->weight > 10) {
-				if ($discount) {
-					$this->priceDisc = round($price - ($price * $discount / 100));
-					echo "Цена со скидкой: {$this->priceDisc} руб. Скидка: $this->$discount";
-				} 
-				else {
-					return $price;
-					echo "Цена товара без скидки: {$this->price} руб."
-				}
-			}
+				$this->discount = 10;
+				$this->priceDisc = round($this->price - ($this->price * $this->discount / 100));
+				echo "<br>Стоимость товара со скидкой: {$this->priceDisc} руб. Скидка: {$this->discount}%";
+			} 
 			else {
-				
+				$discount = 0;
+				echo "<br>Стоимость товара без скидки: {$this->price} руб.";
 			}
 		}
 	}
 
 	trait getDelivery // стоимость доставки
 	{
-		public function getDeliveryPrice
+		public function getDeliveryPrice()
 		{
 			if ($this->discount == 0) {
             	$this->delivery = 250;
@@ -64,21 +72,33 @@ class BaseProductClass {
             else {
             	$this->delivery = 300;
             }
-            echo "Стоимость доставки: {$this->delivery} руб. ";
+            echo "<br>Стоимость доставки: {$this->delivery} руб. ";
 		}
 	}
 
 
+class ComputerClass extends BaseProductClass {
+	use getProductDiscount, getDelivery;
 }
 
-class ComputerClass {
+$sysBlock = new ComputerClass("Системный блок", "Компьютеры", 30000, 3);
+echo $sysBlock->getDiscountPrice();
+echo $sysBlock->getDeliveryPrice()."<br><hr>";
 
+class SmartfonClass extends BaseProductClass {
+	use getProductPrice, getDelivery;
 }
 
-class SmartfonClass {
+$smartFon = new SmartfonClass("Смартфон", "Смартфон", 60000, 0.150);
+echo $smartFon->getPrice();
+echo $smartFon->getDeliveryPrice()."<br><hr>";
 
+class FridgeClass extends BaseProductClass {
+	use getProductDiscount,getDelivery,getWeightDiscount;
 }
 
-class TVClass {
+$Fridge = new FridgeClass("Холодильник", "Бытовая техника", 20000, 16);
+echo $Fridge->getWeightDiscount();
+echo $Fridge->getDeliveryPrice()."<br><hr>";
 
-}
+?>
